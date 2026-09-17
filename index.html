@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The League of Saint Germain Fantasy Football Podcast</title>
+    <title>The League of Saint Germaine Fantasy Football</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -77,53 +77,39 @@
             margin-bottom: 0;
         }
 
-        .episode-list {
-            display: flex;
-            flex-direction: column;
+        .season-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
-        .episode-card {
+        .season-card {
             background: var(--card-bg);
             border-radius: 0.75rem;
             border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            transition: border-color 0.2s, background 0.2s;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: border-color 0.2s, background 0.2s, transform 0.2s;
         }
 
-        .episode-card:hover {
+        .season-card:hover {
             border-color: var(--accent-color);
             background: var(--card-hover);
+            transform: translateY(-2px);
         }
 
-        .episode-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.5rem;
+        .season-card h2 {
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-color);
         }
 
-        .episode-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .episode-date {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        .episode-desc {
+        .season-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
-            margin: 0 0 1.25rem 0;
-        }
-
-        audio {
-            width: 100%;
-            height: 40px;
-            accent-color: var(--accent-color);
+            margin: 0;
         }
 
         footer {
@@ -134,6 +120,12 @@
             border-top: 1px solid var(--border-color);
             padding-top: 1.5rem;
         }
+
+        @media (max-width: 600px) {
+            .season-list {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,51 +133,28 @@
     <div class="container">
         <!-- Header Banner -->
         <header>
-            <h1>🏈 The League of Saint Germaine Fantasy Football Podcast 🏈</h1>
-            <p>Weekly breakdowns, power rankings, and trash talk.</p>
+            <h1>🏈 The League of Saint Germaine 🏈</h1>
+            <p>Official Home Base & Audio Archives</p>
         </header>
 
         <!-- League Welcome / Text Section -->
         <div class="welcome-card">
             <div class="section-title">League Notes</div>
-            <p>Welcome to the official home base for our league's audio recaps. Check here every week for updated matchups, waiver wire targets, and post-game breakdowns.</p>
+            <p>Welcome to the official home base for The League of Saint Germaine. Use the season archives below to access weekly audio recaps, power rankings, and audio breakdowns.</p>
             <p>Make sure you keep this link handy—it's unlisted, so only league members have the keys to the castle.</p>
         </div>
 
-        <!-- Podcasts Section -->
-        <div class="section-title">Latest Episodes</div>
-        <div class="episode-list">
-
-            <!-- Episode 2 Template -->
-            <div class="episode-card">
-                <div class="episode-header">
-                    <h2 class="episode-title">Week 2 Recap & Week 3 Preview</h2>
-                    <span class="episode-date">September 17, 2026</span>
-                </div>
-                <p class="episode-desc">Week 2 Recap & Week 3 Preview</p>
-                
-                <!-- Audio Player with unique ID for memory tracking -->
-                <audio controls id="player-week2">
-                    <source src="episodes/week2-recap.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-
-            <!-- Episode 1 Template -->
-            <div class="episode-card">
-                <div class="episode-header">
-                    <h2 class="episode-title">Week 1 Recap & Week 2 Preview</h2>
-                    <span class="episode-date">September 17, 2026</span>
-                </div>
-                <p class="episode-desc">Week 1 Recap & Week 2 Preview</p>
-                
-                <!-- Audio Player with unique ID for memory tracking -->
-                <audio controls id="player-week1">
-                    <source src="episodes/week1-recap.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-
+        <!-- Seasons Section -->
+        <div class="section-title">Select a Season</div>
+        <div class="season-list">
+            <a href="2026.html" class="season-card">
+                <h2>2026 Season</h2>
+                <p>Current weekly recaps & previews</p>
+            </a>
+            <a href="2025.html" class="season-card">
+                <h2>2025 Season</h2>
+                <p>Archived last year's episodes</p>
+            </a>
         </div>
 
         <footer>
@@ -193,32 +162,5 @@
         </footer>
     </div>
 
-    <!-- JavaScript to remember playback position -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const audioPlayers = document.querySelectorAll("audio");
-
-            audioPlayers.forEach(player => {
-                const playerId = player.id;
-                if (!playerId) return;
-
-                // Restore saved time when the page loads
-                const savedTime = localStorage.getItem("audio_time_" + playerId);
-                if (savedTime) {
-                    player.currentTime = parseFloat(savedTime);
-                }
-
-                // Save time continuously as the user listens
-                player.addEventListener("timeupdate", function() {
-                    localStorage.setItem("audio_time_" + playerId, player.currentTime);
-                });
-
-                // Optional: If they finish the episode, reset it back to 0
-                player.addEventListener("ended", function() {
-                    localStorage.removeItem("audio_time_" + playerId);
-                });
-            });
-        });
-    </script>
 </body>
 </html>
