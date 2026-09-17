@@ -164,8 +164,8 @@
                 </div>
                 <p class="episode-desc">Week 2 Recap & Week 3 Preview</p>
                 
-                <!-- Audio Player pointing to the episodes folder -->
-                <audio controls>
+                <!-- Audio Player with unique ID for memory tracking -->
+                <audio controls id="player-week2">
                     <source src="episodes/week2-recap.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
@@ -179,8 +179,8 @@
                 </div>
                 <p class="episode-desc">Week 1 Recap & Week 2 Preview</p>
                 
-                <!-- Audio Player pointing to the episodes folder -->
-                <audio controls>
+                <!-- Audio Player with unique ID for memory tracking -->
+                <audio controls id="player-week1">
                     <source src="episodes/week1-recap.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
@@ -193,5 +193,32 @@
         </footer>
     </div>
 
+    <!-- JavaScript to remember playback position -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioPlayers = document.querySelectorAll("audio");
+
+            audioPlayers.forEach(player => {
+                const playerId = player.id;
+                if (!playerId) return;
+
+                // Restore saved time when the page loads
+                const savedTime = localStorage.getItem("audio_time_" + playerId);
+                if (savedTime) {
+                    player.currentTime = parseFloat(savedTime);
+                }
+
+                // Save time continuously as the user listens
+                player.addEventListener("timeupdate", function() {
+                    localStorage.setItem("audio_time_" + playerId, player.currentTime);
+                });
+
+                // Optional: If they finish the episode, reset it back to 0
+                player.addEventListener("ended", function() {
+                    localStorage.removeItem("audio_time_" + playerId);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
